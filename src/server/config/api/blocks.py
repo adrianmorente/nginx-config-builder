@@ -12,7 +12,7 @@ class Block(Base):
 
     Example::
 
-        >>> from nginx.config.api import Block
+        >>> from server.config.api import Block
         >>> http = Block('http', option='value')
         >>> print(http)
 
@@ -87,10 +87,10 @@ class EmptyBlock(Block):
 
     Example::
 
-        >>> from nginx.config.helpers import duplicate_options
+        >>> from server.config.helpers import duplicate_options
         >>> dupes = duplicate_options('key', ['value', 'other_value', 'third_value'])
         >>> type(dupes)
-        nginx.config.api.blocks.EmptyBlock
+        server.config.api.blocks.EmptyBlock
         >>> print(dupes)
 
         key third_value;

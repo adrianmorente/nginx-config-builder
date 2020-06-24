@@ -3,7 +3,7 @@ class ConfigBuilderException(BaseException):
     Top-level exception for config builder exceptions.
 
     :param Plugin plugin: plugin that caused the problem
-    :param NginxConfigBuilder builder: current config builder
+    :param ServerConfigBuilder builder: current config builder
     :param str msg: message describing the problem
     """
     def __init__(self, msg, **kwargs):

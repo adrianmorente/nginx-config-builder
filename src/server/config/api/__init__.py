@@ -3,7 +3,7 @@ The Block API provides objects to programatically generate nginx configurations.
 
 Example::
 
-    >>> from nginx.config.api import Config, Section, Location
+    >>> from server.config.api import Config, Section, Location
     >>> events = Section('events', worker_connections='1024')
     >>> http = Section('http', include='../conf/mime.types')
     >>> http.sections.add(
@@ -45,7 +45,7 @@ Example::
 
 """
 from .blocks import EmptyBlock, Block, Location
-from .options import Comment, KeyOption, KeyValueOption, KeyMultiValueOption
+from .options import Comment, KeyOption, KeyValueOption, KeyValuesMultilines, KeyMultiValueOption
 
 __all__ = [
     'EmptyBlock',
@@ -53,7 +53,7 @@ __all__ = [
     'Location',
     'KeyOption',
     'KeyValueOption',
-    'KeyValueMultilines',
+    'KeyValuesMultilines',
     'KeyMultiValueOption',
     'Comment',
     'Config',

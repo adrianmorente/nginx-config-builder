@@ -27,7 +27,7 @@ class Venv(setuptools.Command):
         """Abstract method that is required to be overwritten"""
 
     def run(self):
-        venv_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'venv', 'nginx-config-builder')
+        venv_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'venv', 'server-config-builder')
         print('Creating virtual environment in {path}'.format(path=venv_path))
         if '3' in self.python or sys.version_info[0] >= 3:
             import venv
@@ -51,19 +51,19 @@ class Venv(setuptools.Command):
 
 
 setuptools.setup(
-    name='nginx-config-builder',
+    name='server-config-builder',
     version='1.0.1',
-    description="A python library for generating nginx configs.",
-    author="Loren M. Carvalho",
-    author_email='loren@linkedin.com',
-    url='https://github.com/linkedin/nginx-config-builder',
+    description="A python library for generating different server configs (forked from linkedin/nginx-config-builder, by Loren M. Carvalho).",
+    author="Adrián Morente Gabaldón",
+    author_email='adrian95morente@gmail.com',
+    url='https://github.com/adrianmorente/server-config-builder',
     packages=setuptools.find_packages('src'),
     package_dir={'': 'src'},
     include_package_data=True,
     install_requires=requirements,
     extras_require=extras,
     license="BSD license",
-    keywords='nginx-config-builder',
+    keywords='server-config-builder',
     classifiers=[
         'License :: OSI Approved :: BSD License',
         "Programming Language :: Python :: 2",

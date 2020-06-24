@@ -1,5 +1,5 @@
 Block (low-level) API
 =====================
 
-.. automodule:: nginx.config.api
+.. automodule:: server.config.api
    :members:

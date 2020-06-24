@@ -1,20 +1,20 @@
-from nginx.config.builder import NginxConfigBuilder
-from nginx.config.builder.plugins import UWSGICacheRoutePlugin, ProxyCacheRoutePlugin
-from nginx.config.builder.exceptions import ConfigBuilderException
+from server.config.builder import ServerConfigBuilder
+from server.config.builder.plugins import UWSGICacheRoutePlugin, ProxyCacheRoutePlugin
+from server.config.builder.exceptions import ConfigBuilderException
 
 import pytest
 
 
 @pytest.fixture
 def uwsgi_cache_cfg():
-    cfg = NginxConfigBuilder()
+    cfg = ServerConfigBuilder()
     cfg.register_plugin(UWSGICacheRoutePlugin())
     return cfg
 
 
 @pytest.fixture
 def proxy_cache_cfg():
-    cfg = NginxConfigBuilder()
+    cfg = ServerConfigBuilder()
     cfg.register_plugin(ProxyCacheRoutePlugin())
     return cfg
 

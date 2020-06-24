@@ -1,5 +1,5 @@
 Utilities
 ============================
 
-.. automodule:: nginx.config.helpers
+.. automodule:: server.config.helpers
    :members:

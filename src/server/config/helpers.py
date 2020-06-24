@@ -23,8 +23,8 @@ def duplicate_options(key, values):
 
     Example::
 
-        from nginx.config.helpers import duplicate_options
-        from nginx.config.api import Location
+        from server.config.helpers import duplicate_options
+        from server.config.api import Location
         loc = Location(
             '/',
             duplicate_options('uwsgi_cache_valid', (['404', '5s'], ['200', '60s'])),

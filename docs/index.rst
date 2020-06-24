@@ -1,7 +1,8 @@
-nginx-config-builder
+server-config-builder
 ====================
 
-A python library for constructing nginx configuration files.
+A python library for constructing different server configuration files.
+Forked from linkedin/nginx-config-builder which serves for nginx configuration files.
 
 Contents:
 

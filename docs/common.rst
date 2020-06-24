@@ -1,6 +1,6 @@
 Common Stanzas
 ==============
 
-.. automodule:: nginx.config.common
+.. automodule:: server.config.common
    :private-members:
    :members:

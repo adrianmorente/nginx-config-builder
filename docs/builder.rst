@@ -1,5 +1,5 @@
 Builder API
 ===============
 
-.. automodule:: nginx.config.builder
+.. automodule:: server.config.builder
    :members:

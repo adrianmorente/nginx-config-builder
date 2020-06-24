@@ -4,23 +4,23 @@ The Builder API defines a pluggable builder framework for manipulating nginx con
 Building a config
 =================
 
-Every config built using the builder pattern starts off with creating a :class:NginxConfigBuilder::
+Every config built using the builder pattern starts off with creating a :class:ServerConfigBuilder::
 
-    from nginx.config.builder import NginxConfigBuilder
+    from server.config.builder import ServerConfigBuilder
 
-    nginx = NginxConfigBuilder()
+    nginx = ServerConfigBuilder()
 
 By default, this comes loaded with a bunch of helpful tools to easily create routes and servers
 in nginx::
 
-    with nginx.add_server() as server:
+    with server.add_server() as server:
         server.add_route('/foo').end()
         with server.add_route('/bar') as bar:
              bar.add_route('/baz')
 
 This generates a simple config that looks like this::
 
-    error_log logs/nginx.error.log;
+    error_log logs/server.error.log;
     worker_processes auto;
     daemon on;
     http {
@@ -42,10 +42,10 @@ This generates a simple config that looks like this::
 Plugins
 =======
 
-A plugin is a class that inherits from :class:`nginx.config.builder.baseplugins.Plugin` that provides
-additional methods which can be chained off of the :class:`NginxConfigBuilder` object. These plugins provide
+A plugin is a class that inherits from :class:`server.config.builder.baseplugins.Plugin` that provides
+additional methods which can be chained off of the :class:`ServerConfigBuilder` object. These plugins provide
 convenience methods that manipulate the underlying nginx configuration that gets built by the
-:class:`NginxConfigBuilder`.
+:class:`ServerConfigBuilder`.
 
 A simple plugin only needs to define what methods it's going to export::
 
@@ -59,15 +59,15 @@ A simple plugin only needs to define what methods it's going to export::
         def noop(self):
              pass
 
-This NoopPlugin provides a simple function that can be called off of a :class:`NginxConfigBuilder` that
-does nothing successfully. More complex plugins can be found in :mod:`nginx.config.builder.plugins`
+This NoopPlugin provides a simple function that can be called off of a :class:`ServerConfigBuilder` that
+does nothing successfully. More complex plugins can be found in :mod:`server.config.builder.plugins`
 
 To use this NoopPlugin, we need to create a config builder and then register the plugin with it::
 
-    nginx = NginxConfigBuilder()
-    nginx.noop()  # AttributeError :(
-    nginx.register_plugin(NoopPlugin())
-    nginx.noop()  # it works!
+    nginx = ServerConfigBuilder()
+    server.noop()  # AttributeError :(
+    server.register_plugin(NoopPlugin())
+    server.noop()  # it works!
 
 A more complex plugin would actually do something, like a plugin that adds an expiry directive to
 a route::
@@ -87,7 +87,7 @@ DEFAULT_PLUGINS = (RoutePlugin, ServerPlugin)
 INVALID_PLUGIN_NAMES = ('top,')
 
 
-class NginxConfigBuilder(object):
+class ServerConfigBuilder(object):
     """ Helper that builds a working nginx configuration
 
     Exposes a plugin-based architecture for generating nginx configurations.
@@ -164,16 +164,16 @@ class NginxConfigBuilder(object):
 
         # we can only be owned once
         if plugin._config_builder:
-            raise ConfigBuilderException("Already owned by another NginxConfigBuilder", plugin=plugin)
+            raise ConfigBuilderException("Already owned by another ServerConfigBuilder", plugin=plugin)
         plugin._config_builder = self
 
     def register_plugin(self, plugin):
         """ Registers a new nginx builder plugin.
 
-        Plugins must inherit from nginx.builder.baseplugins.Plugin and not expose methods that conflict
+        Plugins must inherit from server.builder.baseplugins.Plugin and not expose methods that conflict
         with already loaded plugins
 
-        :param plugin nginx.builder.baseplugins.Plugin: nginx plugin to add to builder
+        :param plugin server.builder.baseplugins.Plugin: nginx plugin to add to builder
         """
 
         self._validate_plugin(plugin)
@@ -190,7 +190,7 @@ class NginxConfigBuilder(object):
 
         This is a convenience method for any plugins that need to quickly access the top of the config tree.
 
-        :returns :class:`nginx.config.Block`: Top of the config block
+        :returns :class:`server.config.Block`: Top of the config block
         """
         return self._http
 

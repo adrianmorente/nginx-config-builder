@@ -1,6 +1,6 @@
-from nginx.config.api.blocks import Block, EmptyBlock
-from nginx.config.api.options import KeyOption, KeyValueOption, KeyMultiValueOption, KeyValuesMultilines
-from nginx.config.helpers import duplicate_options
+from server.config.api.blocks import Block, EmptyBlock
+from server.config.api.options import KeyOption, KeyValueOption, KeyMultiValueOption, KeyValuesMultilines
+from server.config.helpers import duplicate_options
 
 
 def test_block_options():

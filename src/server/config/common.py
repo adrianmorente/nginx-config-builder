@@ -76,7 +76,7 @@ def _uwsgi_cache():
 
     NB! you must set "set $nocache 0;" in the Location block of your uwsgi backend.
 
-    see: http://nginx.org/en/docs/http/ngx_http_uwsgi_module.html
+    see: http://server.org/en/docs/http/ngx_http_uwsgi_module.html
     """
     return EmptyBlock(
         **dict(
@@ -149,12 +149,12 @@ def _statsd_options_location():
     """
     statsd = EmptyBlock()
     statsd.sections.add(
-        EmptyBlock(statsd_count=['"nginx.requests"', '1']),
-        EmptyBlock(statsd_count=['"nginx.responses.$status"', '1', '"$status"']),
-        EmptyBlock(statsd_timing=['"nginx.request_time"', '"$request_time"']),
-        EmptyBlock(statsd_timing=['"nginx.upstream_response_time"', '"$upstream_response_time"']),
-        EmptyBlock(statsd_count=['"nginx.response_length"', '"$request_length"']),
-        EmptyBlock(statsd_count=['"nginx.bytes_sent"', '"$bytes_sent"']),
+        EmptyBlock(statsd_count=['"server.requests"', '1']),
+        EmptyBlock(statsd_count=['"server.responses.$status"', '1', '"$status"']),
+        EmptyBlock(statsd_timing=['"server.request_time"', '"$request_time"']),
+        EmptyBlock(statsd_timing=['"server.upstream_response_time"', '"$upstream_response_time"']),
+        EmptyBlock(statsd_count=['"server.response_length"', '"$request_length"']),
+        EmptyBlock(statsd_count=['"server.bytes_sent"', '"$bytes_sent"']),
     )
     return statsd
 

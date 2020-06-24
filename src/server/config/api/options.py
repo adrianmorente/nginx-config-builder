@@ -4,7 +4,7 @@ from .base import Base
 class KeyOption(Base):
     """ A KeyOption represents a directive with no value.
 
-    For example: http://nginx.org/en/docs/http/ngx_http_core_module.html#internal
+    For example: http://server.org/en/docs/http/ngx_http_core_module.html#internal
 
     """
     def __init__(self, name):
@@ -43,11 +43,11 @@ class KeyValueOption(Base):
 class KeyMultiValueOption(KeyValueOption):
     """ A key with multiple space delimited options.
 
-    For example: http://nginx.org/en/docs/http/ngx_http_log_module.html#access_log
+    For example: http://server.org/en/docs/http/ngx_http_log_module.html#access_log
 
     Example::
 
-        >>> from nginx.config.api.options import KeyMultiValueOption
+        >>> from server.config.api.options import KeyMultiValueOption
         >>> a_log = KeyMultiValueOption('access_log', ['/path/to/log.gz', 'combined', 'gzip', 'flush=5m'])
         >>> print(a_log)
 

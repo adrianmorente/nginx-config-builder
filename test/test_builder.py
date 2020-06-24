@@ -1,7 +1,7 @@
-from nginx.config.builder import NginxConfigBuilder
-from nginx.config.builder.baseplugins import Plugin
-from nginx.config.builder.plugins import UWSGICacheRoutePlugin
-from nginx.config.builder.exceptions import (
+from server.config.builder import ServerConfigBuilder
+from server.config.builder.baseplugins import Plugin
+from server.config.builder.plugins import UWSGICacheRoutePlugin
+from server.config.builder.exceptions import (
     ConfigBuilderException,
     ConfigBuilderConflictException,
     ConfigBuilderNoSuchMethodException
@@ -18,9 +18,9 @@ def test_bad_plugin():
         def exported_methods(self):
             return {}
 
-    nginx = NginxConfigBuilder()
+    nginx = ServerConfigBuilder()
     with pytest.raises(ConfigBuilderException):
-        nginx.register_plugin(BadPlugin())
+        server.register_plugin(BadPlugin())
 
 
 def test_custom_plugin():
@@ -35,8 +35,8 @@ def test_custom_plugin():
         def exported_methods(self):
             return {'foo': self.foo}
 
-    nginx = NginxConfigBuilder()
-    nginx.register_plugin(CustomPlugin())
+    nginx = ServerConfigBuilder()
+    server.register_plugin(CustomPlugin())
 
 
 def test_conflict_plugins():
@@ -62,11 +62,11 @@ def test_conflict_plugins():
         def exported_methods(self):
             return {'foo': self.foo}
 
-    nginx = NginxConfigBuilder()
-    nginx.register_plugin(CustomOne())
+    nginx = ServerConfigBuilder()
+    server.register_plugin(CustomOne())
 
     with pytest.raises(ConfigBuilderConflictException):
-        nginx.register_plugin(CustomTwo())
+        server.register_plugin(CustomTwo())
 
 
 def test_same_name():
@@ -92,11 +92,11 @@ def test_same_name():
         def exported_methods(self):
             return {'bar': self.foo}
 
-    nginx = NginxConfigBuilder()
-    nginx.register_plugin(CustomOne())
+    nginx = ServerConfigBuilder()
+    server.register_plugin(CustomOne())
 
     with pytest.raises(ConfigBuilderConflictException):
-        nginx.register_plugin(CustomTwo())
+        server.register_plugin(CustomTwo())
 
 
 def test_builtin_conflict():
@@ -111,10 +111,10 @@ def test_builtin_conflict():
         def exported_methods(self):
             return {'register_plugin': self.register_plugin}
 
-    nginx = NginxConfigBuilder()
+    nginx = ServerConfigBuilder()
 
     with pytest.raises(ConfigBuilderConflictException):
-        nginx.register_plugin(CustomPlugin())
+        server.register_plugin(CustomPlugin())
 
 
 def test_calling_plugin_meth():
@@ -129,9 +129,9 @@ def test_calling_plugin_meth():
         def exported_methods(self):
             return {'foo': self.foo}
 
-    nginx = NginxConfigBuilder()
-    nginx.register_plugin(Custom())
-    assert nginx.foo() == 'foo'
+    nginx = ServerConfigBuilder()
+    server.register_plugin(Custom())
+    assert server.foo() == 'foo'
 
     class CustomArgs(Plugin):
         name = 'custom args'
@@ -144,11 +144,11 @@ def test_calling_plugin_meth():
         def exported_methods(self):
             return {'bar': self.bar}
 
-    nginx.register_plugin(CustomArgs())
-    assert nginx.bar('bar', kwarg='baz') == ('bar', 'baz')
+    server.register_plugin(CustomArgs())
+    assert server.bar('bar', kwarg='baz') == ('bar', 'baz')
 
     with pytest.raises(ConfigBuilderNoSuchMethodException):
-        nginx.blah()
+        server.blah()
 
 
 def test_basic_route():
@@ -168,8 +168,8 @@ http {
     }
 }'''
 
-    nginx = NginxConfigBuilder()
-    nginx.add_server().add_route('/foo').end().end()
+    nginx = ServerConfigBuilder()
+    server.add_server().add_route('/foo').end().end()
     assert sorted(expected.splitlines()) == sorted(repr(nginx).splitlines())
 
 
@@ -192,16 +192,16 @@ http {
     }
 }'''
 
-    nginx = NginxConfigBuilder()
-    nginx.add_server().add_route('/foo').add_route('/bar').end().end().end()
+    nginx = ServerConfigBuilder()
+    server.add_server().add_route('/foo').add_route('/bar').end().end().end()
 
     assert sorted(expected.splitlines()) == sorted(repr(nginx).splitlines())
 
 
 def test_invalid_parent():
-    nginx = NginxConfigBuilder()
+    nginx = ServerConfigBuilder()
     with pytest.raises(ConfigBuilderException):
-        nginx.add_route('/blah')
+        server.add_route('/blah')
 
 
 def test_context_man():
@@ -229,10 +229,10 @@ http {
     }
 }'''
 
-    nginx = NginxConfigBuilder()
-    nginx.register_plugin(UWSGICacheRoutePlugin())
+    nginx = ServerConfigBuilder()
+    server.register_plugin(UWSGICacheRoutePlugin())
 
-    with nginx.add_server() as server:
+    with server.add_server() as server:
         with server.add_route('/foo') as foo:
             foo.cache_uwsgi_route(cache_valid={'404': '5s'})
         server.add_route('/bar').end()

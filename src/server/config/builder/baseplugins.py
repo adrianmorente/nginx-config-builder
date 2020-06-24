@@ -20,7 +20,7 @@ class Navigable(object):
     def __init__(self, *args, **kwargs):
         """ Creates a new Navigable class
 
-        :param nginx.builder.ConfigBuilder config_builder: internal ConfigBuilder used to create nginx config objs
+        :param server.builder.ConfigBuilder config_builder: internal ConfigBuilder used to create nginx config objs
         """
         # This can sometimes be added by direct access,
         # in the case of plugins
@@ -30,7 +30,7 @@ class Navigable(object):
     def chobj(self, obj):
         """ Changes the current working object to the one provided.
 
-        :param nginx.config.Block obj: object that we're scoping to
+        :param server.config.Block obj: object that we're scoping to
         """
         self.config_builder._cwo = obj
 
@@ -38,7 +38,7 @@ class Navigable(object):
     def current_obj(self):
         """ Returns the current working object.
 
-        :returns nginx.config.Block: object that we're currently scoped to
+        :returns server.config.Block: object that we're currently scoped to
         """
         return self.config_builder._cwo
 
@@ -46,7 +46,7 @@ class Navigable(object):
     def config_builder(self):
         """ Internal config builder.
 
-        :returns nginx.builder.ConfigBuilder: the internal ConfigBuilder for manipulating the nginx config
+        :returns server.builder.ConfigBuilder: the internal ConfigBuilder for manipulating the nginx config
         """
         return self._config_builder
 
@@ -57,7 +57,7 @@ class Navigable(object):
     def add_child(self, child):
         """ Adds a child to the config object
 
-        :param nginx.config.Builder child: child to insert into config tree
+        :param server.config.Builder child: child to insert into config tree
         """
         name = re.split(r'\s+', self.current_obj.name)[0]
         if self.valid_cfg_parents and name not in self.valid_cfg_parents:
