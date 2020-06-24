@@ -13,3 +13,6 @@
 dist/
 venv/
 activate
+.idea/
+.vscode/
+build/
